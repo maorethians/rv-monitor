@@ -2,7 +2,7 @@ package com.runtimeverification.rvmonitor.java.rt;
 
 public abstract class RVMLogging {
   public static enum Level {
-    ALL, WARNING, CRITICAL, NONE
+    ALL, WARNING, CRITICAL, NONE, UNIQUE
   }
 
   public static RVMLogging out;
@@ -10,11 +10,11 @@ public abstract class RVMLogging {
 
   static {
     String loggingLevel = System.getenv("RVMLOGGINGLEVEL");
-   
+
     if(loggingLevel == null){
       out = new RVMLoggingAll(System.out);
       err = new RVMLoggingAll(System.err);
-    } 
+    }
     else if(loggingLevel.equals("ALL")){
       out = new RVMLoggingAll(System.out);
       err = new RVMLoggingAll(System.err);
@@ -31,8 +31,12 @@ public abstract class RVMLogging {
       out = new RVMLoggingNone(System.out);
       err = new RVMLoggingNone(System.err);
     }
+    else if(loggingLevel.equals("UNIQUE")){
+      out = new RVMLoggingUnique(System.out);
+      err = new RVMLoggingUnique(System.err);
+    }
   }
- 
+
   public abstract void println(Level l);
   public abstract void print(Level l, boolean x);
   public abstract void println(Level l, boolean x);
@@ -78,6 +82,7 @@ public abstract class RVMLogging {
     out.println(Level.ALL, "ALL");
     out.println(Level.WARNING, "WARNING");
     out.println(Level.CRITICAL, "CRITICAL");
+    out.println(Level.UNIQUE, "UNIQUE");
   }
 
 }
