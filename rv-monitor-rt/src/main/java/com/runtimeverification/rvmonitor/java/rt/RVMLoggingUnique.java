@@ -22,7 +22,7 @@ public class RVMLoggingUnique extends RVMLogging {
             public void run()
             {
                 File file = new File(System.getProperty("user.dir")
-                                     + File.pathSeparator + "violation-counts");
+                                     + File.separator + "violation-counts");
                 try (FileWriter fw = new FileWriter(file.getAbsoluteFile(), true)) {
                     for (String msg : counts.keySet()) {
                         if (msg.startsWith("Specification")) {
