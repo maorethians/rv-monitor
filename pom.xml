@@ -23,7 +23,7 @@
         <module>logicrepository</module>
         <module>plugins_logicrepository</module>
         <module>rv-monitor</module>
-        <module>installer</module>
+        <!-- <module>installer</module> -->
     </modules>
     <url>http://www.runtimeverification.com</url>
     <scm>
