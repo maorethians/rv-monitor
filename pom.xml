@@ -29,22 +29,22 @@
     <scm>
         <connection>scm:git:https://github.com/runtimeverification/rv-monitor.git</connection>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
     <repositories>
-        <repository>
-            <id>runtime-verification</id>
-            <name>Runtime Verification Repository</name>
-            <url>http://office.runtimeverification.com:8888/repository/internal</url>
-            <snapshots><enabled>false</enabled></snapshots>
-            <releases><enabled>true</enabled></releases>
-        </repository>
-        <repository>
-            <id>runtime-verification.snapshots</id>
-            <name>Runtime Verification Snapshot Repository</name>
-            <url>http://office.runtimeverification.com:8888/repository/snapshots</url>
-            <snapshots><enabled>true</enabled></snapshots>
-            <releases><enabled>false</enabled></releases>
-        </repository>
+      <repository>
+        <id>runtime.verification</id>
+        <name>Runtime Verification Repository</name>
+        <url>https://s3.amazonaws.com/repo.runtime.verification/repository/internal</url>
+        <snapshots><enabled>false</enabled></snapshots>
+        <releases><enabled>true</enabled></releases>
+      </repository>
+      <repository>
+        <id>runtime.verification.snapshots</id>
+        <name>Runtime Verification Snapshot Repository</name>
+        <url>https://s3.amazonaws.com/repo.runtime.verification/repository/snapshots</url>
+        <snapshots><enabled>true</enabled></snapshots>
+        <releases><enabled>false</enabled></releases>
+      </repository>
     </repositories>
     <distributionManagement>
         <repository>
