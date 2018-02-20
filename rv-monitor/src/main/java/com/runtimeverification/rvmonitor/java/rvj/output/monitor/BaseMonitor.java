@@ -623,17 +623,13 @@ public class BaseMonitor extends Monitor {
             }
 
             // Generate code to trigger handler
-            ret += "if(" + monitorVar + "." + rvmVariable + " && " + monitorVar + ".violationCount == 0 ) {\n";
+            ret += "if(" + monitorVar + "." + rvmVariable + ") {\n";
 
             ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
-            if (!Main.stripUnusedParameterInMonitor) {
+            if (!Main.stripUnusedParameterInMonitor)
                 ret += event.getRVMParametersOnSpec().parameterStringIn(
                         specParam);
-            }
             ret += ");\n";
-            ret += "// added for reducing printing\n";
-            ret += "System.out.println(" + monitorVar + ".violationCount); \n";
-            ret += monitorVar + ".violationCount++;\n";
 
             ret += "}\n";
         }
@@ -829,8 +825,6 @@ public class BaseMonitor extends Monitor {
             }
         }
         ret += "\n";
-
-        ret += "public int violationCount = 0;\n";
 
         if (this.isAtomicMoniorUsed()) {
             ICodeFormatter fmt = CodeFormatters.getDefault();
