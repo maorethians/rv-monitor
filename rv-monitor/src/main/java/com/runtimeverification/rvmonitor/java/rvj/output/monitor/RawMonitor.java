@@ -33,7 +33,7 @@ public class RawMonitor extends Monitor {
 
         this.isDefined = true;
 
-        this.monitorName = new RVMVariable(rvmSpec.getName() + "RawMonitor");
+        this.monitorName = new RVMVariable(rvmSpec.getName() + "Monitor");
 
         if (isOutermost) {
             varInOutermostMonitor = new VarInOutermostMonitor(outputName,
@@ -165,7 +165,12 @@ public class RawMonitor extends Monitor {
         // "Thread.currentThread().getStackTrace()[2].toString()"
         // + ";\n";
         // }
-
+        if (!inMonitorSet) {
+            ret += "List<StackTraceElement> relevantList = recorder.getRelevantStack().subList(0,1);\n";
+            ret += "recorder.occurrences.putIfAbsent(\"" + getOutputName() + "\", new HashMap<List<StackTraceElement>, Integer>());\n";
+            ret += "int count = recorder.occurrences.get(\"" + getOutputName() + "\").getOrDefault(relevantList, 0);\n";
+            ret += "if (count == 0) {\n";
+        }
         ret += monitorVar + ".event_" + event.getId() + "(";
         {
             RVMParameters params;
@@ -176,6 +181,10 @@ public class RawMonitor extends Monitor {
             ret += params.parameterString();
         }
         ret += ");\n";
+        if (!inMonitorSet) {
+            ret += "}\n";
+            ret += "recorder.occurrences.get(\"" + getOutputName() + "\").put(relevantList, ++count);\n";
+        }
 
         return ret;
     }
@@ -200,6 +209,9 @@ public class RawMonitor extends Monitor {
 
         // clone()
         ret += "protected Object clone() {\n";
+        if (Main.statistics) {
+            ret += stat.incNumMonitor();
+        }
         ret += "try {\n";
         ret += monitorName + " ret = (" + monitorName + ") super.clone();\n";
         if (monitorInfo != null)
@@ -214,6 +226,21 @@ public class RawMonitor extends Monitor {
         ret += monitorDeclaration + "\n";
         if (this.has__ACTIVITY)
             ret += activityCode();
+
+        if (Main.statistics) {
+            ret += stat.fieldDecl() + "\n";
+        }
+
+        //constructor
+        ret += monitorName + "(){\n";
+        if (Main.statistics) {
+            ret += stat.incNumMonitor();
+        }
+        ret += "}\n";
+
+        if (Main.statistics) {
+            ret += stat.methodDecl() + "\n";
+        }
         // if (this.has__LOC)
         // ret += "String " + loc + ";\n";
         // implements getState(), which returns -1
