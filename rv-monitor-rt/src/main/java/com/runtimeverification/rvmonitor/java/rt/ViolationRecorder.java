@@ -89,9 +89,14 @@ public class ViolationRecorder {
         for(int i = 0; i < elements.length; i++) {
             final String fileName = elements[i].getFileName();
             final String className = elements[i].getClassName();
-            if(className.startsWith("com.runtimeverification.rvmonitor.") ||
-                    className.startsWith("javamop.") || fileName.contains(".aj") ||
-                    className.startsWith("mop.") || className.startsWith("rvm.")) {
+            // when file is generated at runtime, fileName is null
+            // also check for nullity of className, just in case
+            if((fileName != null && className != null)
+                    && (className.startsWith("com.runtimeverification.rvmonitor.")
+                    || className.startsWith("javamop.")
+                    || fileName.contains(".aj")
+                    || className.startsWith("mop.")
+                    || className.startsWith("rvm."))) {
             } else {
                 relevantList.add(elements[i]);
             }
