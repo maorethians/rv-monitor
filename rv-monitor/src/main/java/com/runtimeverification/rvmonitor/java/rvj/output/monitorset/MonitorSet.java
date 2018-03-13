@@ -644,6 +644,8 @@ public class MonitorSet {
                     + monitorName + ">";
         ret += " {\n";
 
+        ret += "static com.runtimeverification.rvmonitor.java.rt.ViolationRecorder recorder = com.runtimeverification.rvmonitor.java.rt.ViolationRecorder.get();\n";
+
         // if (has__LOC)
         // ret += "String " + loc + " = null;\n";
 
