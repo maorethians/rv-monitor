@@ -46,10 +46,6 @@ public class ViolationRecorder {
         return makeRelevantList(getStack());
     }
 
-    public static List<StackTraceElement> getMinimalRelevantStack() {
-        return makeMinimalRelevantList(getStack());
-    }
-
     /**
      * Retrieve the current line of code in the monitored program.
      * @return A string of the current line of code.
@@ -95,44 +91,18 @@ public class ViolationRecorder {
             final String className = elements[i].getClassName();
             // when file is generated at runtime, fileName is null
             // also check for nullity of className, just in case
-            if(fileName == null || className == null) {
-                continue;
-            } else if (className.startsWith("com.runtimeverification.rvmonitor.")
+            if((fileName != null && className != null)
+                    && (className.startsWith("com.runtimeverification.rvmonitor.")
                     || className.startsWith("javamop.")
                     || fileName.contains(".aj")
                     || className.startsWith("mop.")
-                    || className.startsWith("rvm.")) {
-                continue;
+                    || className.startsWith("rvm."))) {
             } else {
                 relevantList.add(elements[i]);
             }
         }
         return relevantList;
     }
-
-    private static List<StackTraceElement> makeMinimalRelevantList(StackTraceElement[] elements) {
-        final ArrayList<StackTraceElement> relevantList = new ArrayList<StackTraceElement>();
-        for(int i = 0; i < elements.length; i++) {
-            final String fileName = elements[i].getFileName();
-            final String className = elements[i].getClassName();
-            // when file is generated at runtime, fileName is null
-            // also check for nullity of className, just in case
-            if(fileName == null || className == null) {
-                continue;
-            } else if (className.startsWith("com.runtimeverification.rvmonitor.")
-                    || className.startsWith("javamop.")
-                    || fileName.contains(".aj")
-                    || className.startsWith("mop.")
-                    || className.startsWith("rvm.")) {
-                continue;
-            } else {
-                relevantList.add(elements[i]);
-                break;
-            }
-        }
-        return relevantList;
-    }
-
 
     /**
      * Produce a minimal summary of the properties violated, and how often they were violated.

@@ -624,7 +624,7 @@ public class BaseMonitor extends Monitor {
 
             // Generate code to trigger handler
             ret += "if(" + monitorVar + "." + rvmVariable + ") {\n";
-            ret += "List<StackTraceElement> relevantList = recorder.getMinimalRelevantStack();\n";
+            ret += "List<StackTraceElement> relevantList = recorder.getRelevantStack().subList(0,1);\n";
             ret += "recorder.occurrences.putIfAbsent(\"" + getOutputName() + "\", new HashMap<List<StackTraceElement>, Integer>());\n";
             ret += "int count = recorder.occurrences.get(\"" + getOutputName() + "\").getOrDefault(relevantList, 0);\n";
             ret += "if (count == 0) {\n";
