@@ -624,17 +624,21 @@ public class BaseMonitor extends Monitor {
 
             // Generate code to trigger handler
             ret += "if(" + monitorVar + "." + rvmVariable + ") {\n";
-            ret += "List<StackTraceElement> relevantList = recorder.getRelevantStack().subList(0,1);\n";
-            ret += "recorder.occurrences.putIfAbsent(\"" + getOutputName() + "\", new HashMap<List<StackTraceElement>, Integer>());\n";
-            ret += "int count = recorder.occurrences.get(\"" + getOutputName() + "\").getOrDefault(relevantList, 0);\n";
-            ret += "if (count == 0) {\n";
+            if (!inMonitorSet) {
+                ret += "List<StackTraceElement> relevantList = recorder.getRelevantStack().subList(0,1);\n";
+                ret += "recorder.occurrences.putIfAbsent(\"" + getOutputName() + "\", new HashMap<List<StackTraceElement>, Integer>());\n";
+                ret += "int count = recorder.occurrences.get(\"" + getOutputName() + "\").getOrDefault(relevantList, 0);\n";
+                ret += "if (count == 0) {\n";
+            }
             ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
             if (!Main.stripUnusedParameterInMonitor)
                 ret += event.getRVMParametersOnSpec().parameterStringIn(
                         specParam);
             ret += ");\n";
-            ret += "}\n";
-            ret += "recorder.occurrences.get(\"" + getOutputName() + "\").put(relevantList, ++count);\n";
+            if (!inMonitorSet) {
+                ret += "}\n";
+                ret += "recorder.occurrences.get(\"" + getOutputName() + "\").put(relevantList, ++count);\n";
+            }
             ret += "}\n";
         }
         if (existSkip) {
