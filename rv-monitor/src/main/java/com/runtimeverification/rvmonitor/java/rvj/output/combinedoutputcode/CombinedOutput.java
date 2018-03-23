@@ -215,8 +215,6 @@ public class CombinedOutput {
 
         ret += this.indexingTreeManager.decl();
 
-        ret += "\nstatic com.runtimeverification.rvmonitor.java.rt.ViolationRecorder recorder = com.runtimeverification.rvmonitor.java.rt.ViolationRecorder.get();\n";
-
         {
             ICodeFormatter fmt = CodeFormatters.getDefault();
             this.runtimeServiceManager.getCode(fmt);
