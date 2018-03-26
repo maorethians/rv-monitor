@@ -165,12 +165,6 @@ public class RawMonitor extends Monitor {
         // "Thread.currentThread().getStackTrace()[2].toString()"
         // + ";\n";
         // }
-        if (!inMonitorSet) {
-            ret += "List<StackTraceElement> relevantList = recorder.getRelevantStack().subList(0,1);\n";
-            ret += "recorder.occurrences.putIfAbsent(\"" + getOutputName() + "\", new HashMap<List<StackTraceElement>, Integer>());\n";
-            ret += "int count = recorder.occurrences.get(\"" + getOutputName() + "\").getOrDefault(relevantList, 0);\n";
-            ret += "if (count == 0) {\n";
-        }
         ret += monitorVar + ".event_" + event.getId() + "(";
         {
             RVMParameters params;
@@ -181,10 +175,6 @@ public class RawMonitor extends Monitor {
             ret += params.parameterString();
         }
         ret += ");\n";
-        if (!inMonitorSet) {
-            ret += "}\n";
-            ret += "recorder.occurrences.get(\"" + getOutputName() + "\").put(relevantList, ++count);\n";
-        }
 
         return ret;
     }
