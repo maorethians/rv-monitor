@@ -77,11 +77,11 @@
             <scope>test</scope>
         </dependency>
         <!-- docs required for assembly -->
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>docs</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!-- <dependency> -->
+        <!--     <groupId>com.runtimeverification.rvmonitor</groupId> -->
+        <!--     <artifactId>docs</artifactId> -->
+        <!--     <version>${project.version}</version> -->
+        <!-- </dependency> -->
     </dependencies>
     <build>
         <plugins>
