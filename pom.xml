@@ -4,7 +4,7 @@
     <groupId>com.runtimeverification.rvmonitor</groupId>
     <artifactId>root</artifactId>
     <packaging>pom</packaging>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4</version>
     <profiles>
         <profile>
             <id>generate-docs</id>
